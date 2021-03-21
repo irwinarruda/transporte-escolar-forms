@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Container = styled.header`
+export const Container = styled.section`
     max-width: 620px;
     width: 100%;
     margin-top: 15px;
