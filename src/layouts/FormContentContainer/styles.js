@@ -9,7 +9,7 @@ export const Container = styled.section`
     position: relative;
 
     background-color: #ffffff;
-    border: 2px solid var(--color-grey);
+    box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     overflow: hidden;
 
@@ -23,7 +23,7 @@ export const Container = styled.section`
         &:after {
             content: '';
             display: block;
-            height: 2px;
+            height: 1px;
             width: 100%;
             margin-top: 4px;
             background-color: var(--color-blue);

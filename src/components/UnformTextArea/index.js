@@ -2,7 +2,7 @@ import React from 'react';
 import { useField } from '@unform/core';
 import { Container } from './styles';
 
-export default function UnformInputText({
+export default function UnformTextArea({
     labelText,
     name,
     bigTextField = false,
@@ -23,13 +23,13 @@ export default function UnformInputText({
         <Container bigTextField={bigTextField}>
             <label htmlFor={name}>{labelText}</label>
             <div className="input-field">
-                <input
+                <textarea
                     defaultValue={defaultValue}
                     name={name}
                     id={name}
                     ref={inputRef}
                     {...props}
-                />
+                ></textarea>
                 <span>{error}</span>
             </div>
         </Container>
