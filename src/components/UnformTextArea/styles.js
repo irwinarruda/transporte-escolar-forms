@@ -15,10 +15,12 @@ export const Container = styled.div`
         width: 100%;
         display: block;
         margin-top: 22px;
-        input {
+        textarea {
+            resize: none;
             display: block;
             max-width: ${(props) => (props.bigTextField ? '100%' : '330px')};
             width: 100%;
+            height: 80px;
             padding: 6px 10px 6px 10px;
 
             font-size: 14px;

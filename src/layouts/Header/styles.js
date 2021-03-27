@@ -8,7 +8,7 @@ export const Container = styled.header`
     position: relative;
 
     background-color: #ffffff;
-    border: 2px solid var(--color-grey);
+    box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     overflow: hidden;
 
