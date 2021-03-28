@@ -12,7 +12,7 @@ export default function Home() {
                         <Link href="/diretores">
                             <a>DIRETORES</a>
                         </Link>
-                        <Link href="/">
+                        <Link href="/gestores">
                             <a>GESTORES</a>
                         </Link>
                     </div>
