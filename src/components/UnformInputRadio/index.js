@@ -6,9 +6,11 @@ export default function UnformInputRadio({
     name,
     labelText,
     options,
+    other = false,
     ...props
 }) {
     const inputRefs = React.useRef([]);
+    const [otherValue, setOtherValue] = React.useState('');
     const { fieldName, registerField, defaultValue = '', error } = useField(
         name,
     );
@@ -21,7 +23,9 @@ export default function UnformInputRadio({
                 return refs.current.find((input) => input?.checked)?.value;
             },
             setValue: (refs, id) => {
-                const inputRef = refs.current.find((ref) => ref.id === id);
+                const inputRef = refs.current.find((ref) => {
+                    return ref.id === id;
+                });
                 if (inputRef) inputRef.checked = true;
             },
             clearValue: (refs) => {
@@ -36,26 +40,44 @@ export default function UnformInputRadio({
     return (
         <Container>
             <p>{labelText}</p>
-            <RadioField>
-                {options.map((option, index) => (
-                    <RadioItem key={option.value}>
-                        <input
-                            type="radio"
-                            ref={(ref) => {
-                                inputRefs.current[index] = ref;
-                            }}
-                            id={option.value}
-                            name={name}
-                            defaultChecked={defaultValue.includes(option.value)}
-                            value={option.value}
-                            {...props}
-                        />
-                        <span></span>
-                        {option.label}
-                    </RadioItem>
-                ))}
-            </RadioField>
-            <span>{error}</span>
+            <div className="input-field">
+                <RadioField>
+                    {options.map((option, index) => (
+                        <RadioItem key={option.value}>
+                            <input
+                                type="radio"
+                                ref={(ref) => {
+                                    inputRefs.current[index] = ref;
+                                }}
+                                id={option.value}
+                                name={name}
+                                defaultChecked={defaultValue.includes(
+                                    option.value,
+                                )}
+                                value={otherValue}
+                                {...props}
+                            />
+                            <span></span>
+                            {other && index + 1 === options.length ? (
+                                <input
+                                    type="text"
+                                    value={otherValue}
+                                    onChange={(event) =>
+                                        setOtherValue(event.target.value)
+                                    }
+                                    placeholder="Outro..."
+                                    onClick={() => {
+                                        inputRefs.current[index].checked = true;
+                                    }}
+                                />
+                            ) : (
+                                <>{option.label || null}</>
+                            )}
+                        </RadioItem>
+                    ))}
+                </RadioField>
+                <span>{error}</span>
+            </div>
         </Container>
     );
 }

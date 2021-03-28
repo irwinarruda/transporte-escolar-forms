@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.header`
-    max-width: 620px;
+    max-width: var(--content-block-width);
     width: 100%;
     padding: var(--padding-mobile);
     padding-top: 22px;

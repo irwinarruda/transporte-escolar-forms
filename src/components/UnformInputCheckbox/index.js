@@ -4,9 +4,7 @@ import { Container } from './styles';
 
 export default function UnformInputCheckbox({ name, options, ...props }) {
     const inputRefs = React.useRef();
-    const { fieldName, registerField, defaultValue, error } = useField(
-        `${name}.${options.value}`,
-    );
+    const { fieldName, registerField, defaultValue, error } = useField(name);
 
     const defaultChecked = defaultValue === options.value;
 
@@ -32,7 +30,7 @@ export default function UnformInputCheckbox({ name, options, ...props }) {
                 type="checkbox"
                 ref={inputRefs}
                 id={options.value}
-                name={`${name}.${options.value}`}
+                name={name}
                 defaultChecked={defaultChecked}
                 value={options.value}
                 {...props}

@@ -4,16 +4,19 @@ export const Container = styled.div`
     border-radius: 5px;
     box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.1);
     padding: 20px;
+    width: 100%;
 
-    & > span {
-        min-height: 20px;
-        display: block;
-        margin-top: 5px;
+    .input-field {
+        & > span {
+            min-height: 20px;
+            display: block;
+            margin-top: 5px;
 
-        color: var(--color-red);
-        font-weight: 500;
-        font-family: var(--font-secondary);
-        font-size: 14px;
+            color: var(--color-red);
+            font-weight: 500;
+            font-family: var(--font-secondary);
+            font-size: 14px;
+        }
     }
 `;
 
@@ -35,11 +38,33 @@ export const RadioItem = styled.label`
     & + label {
         margin-top: 17px;
     }
-    input {
+    input[type='radio'] {
         width: 0px;
         height: 0px;
         visibility: hidden;
         opacity: 0;
+    }
+    input[type='text'] {
+        display: block;
+        max-width: 70%;
+        width: 100%;
+        padding: 3px 10px 3px 10px;
+
+        font-size: 14px;
+        border-radius: 3px;
+        border: 1px solid rgba(0, 0, 0, 0.3);
+        border-top: none;
+
+        transition: all 0.2s ease-in;
+
+        &::placeholder {
+            font-weight: 300;
+        }
+
+        &:focus {
+            outline: none;
+            border-color: var(--color-yellow);
+        }
     }
     span {
         min-width: 24px;

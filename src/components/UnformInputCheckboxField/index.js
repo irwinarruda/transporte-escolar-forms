@@ -1,7 +1,6 @@
 import React from 'react';
-import { useField } from '@unform/core';
 import UnformInputCheckbox from '../UnformInputCheckbox';
-import { Container, CheckboxField, CheckboxItem } from './styles';
+import { Container, CheckboxField } from './styles';
 
 export default function UnformInputCheckboxField({
     name,
@@ -15,7 +14,8 @@ export default function UnformInputCheckboxField({
             <CheckboxField>
                 {options.map((option, index) => (
                     <UnformInputCheckbox
-                        name={name}
+                        key={index}
+                        name={`${name}.${option.value}`}
                         options={option}
                         {...props}
                     />
