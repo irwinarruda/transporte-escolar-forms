@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.section`
-    max-width: 620px;
+    max-width: var(--content-block-width);
     width: 100%;
     margin-top: 15px;
     padding: var(--padding-mobile);
