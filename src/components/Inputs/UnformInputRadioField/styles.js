@@ -102,6 +102,8 @@ export const RadioField = styled.div`
             }
 
             & > span {
+                margin-top: 0px;
+                margin-left: 25px;
                 min-height: auto;
             }
         }

@@ -15,7 +15,7 @@ export default createGlobalStyle`
         --color-red: #FF6161;
         --padding-mobile: 24px;
         --margin-mobile: 15px;
-        --content-block-width: 655px;
+        --content-block-width: 635px;
         /*
         --color-darker-white: #F4F4F4;
         --color-bg-white: #FAFAFA;
