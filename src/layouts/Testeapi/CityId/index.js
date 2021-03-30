@@ -33,7 +33,7 @@ export default function CityId({ page, setPage, formData, setFormData }) {
     );
 
     const handleGoBackClick = React.useCallback(() => {
-        Router.push('/');
+        setPage('select_test');
     }, []);
     return (
         <>

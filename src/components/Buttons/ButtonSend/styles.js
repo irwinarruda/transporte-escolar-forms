@@ -5,8 +5,7 @@ export const ButtonContainer = styled.button`
     color: var(--color-blue);
     font-weight: 500;
 
-    box-shadow: 0 2px 1px -1px rgb(0 0 0 / 20%), 0 1px 1px 0 rgb(0 0 0 / 14%),
-        0 1px 3px 0 rgb(0 0 0 / 12%);
+    box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.1);
     background-color: var(--color-yellow);
     border: none;
     border-radius: 5px;

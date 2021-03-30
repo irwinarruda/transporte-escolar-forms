@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 .editorconfig
+.env.local
 
 # testing
 /coverage

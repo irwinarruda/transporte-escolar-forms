@@ -35,6 +35,7 @@ export default function SchoolId({ page, setPage, formData, setFormData }) {
     const handleGoBackClick = React.useCallback(() => {
         Router.push('/');
     }, []);
+
     return (
         <>
             <div className="form-content-container">
