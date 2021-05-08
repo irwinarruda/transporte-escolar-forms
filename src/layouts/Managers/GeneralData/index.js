@@ -1,13 +1,14 @@
 import React from 'react';
 import { Form } from '@unform/web';
 
-import { ValidationError } from 'yup';
+import * as Yup from 'yup';
 import getValidationErrors from '../../../utils/getValidationErrors';
 import { directors_schoolid } from '../../../utils/validationSchemas';
 
 import ButtonGoTo from '../../../components/Buttons/ButtonGoTo';
 import UnformInputText from '../../../components/Inputs/UnformInputText';
 import UnformInputRadio from '../../../components/Inputs/UnformInputRadio';
+import UnformInputTextField from '../../../components/Inputs/UnformInputTextField';
 
 export default function GeneralData({ page, setPage, formData, setFormData }) {
     const formRef = React.useRef(null);
@@ -19,11 +20,22 @@ export default function GeneralData({ page, setPage, formData, setFormData }) {
                 /* await directors_schoolid.validate(data, {
                     abortEarly: false,
                 }); */
+                console.log(data);
+                const schema = Yup.object().shape({
+                    form_8_total_alunos: Yup.object().shape({
+                        propria: Yup.string().required('Olá mundo'),
+                        terceirizada: Yup.string().required('Olá mundo'),
+                    }),
+                });
+                await schema.validate(data, {
+                    abortEarly: false,
+                });
+
                 setPage('fleet');
                 setFormData((prev) => ({ ...prev, ...data }));
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             } catch (err) {
-                if (err instanceof ValidationError) {
+                if (err instanceof Yup.ValidationError) {
                     formRef.current.setErrors(getValidationErrors(err));
                 }
             }
@@ -65,7 +77,7 @@ export default function GeneralData({ page, setPage, formData, setFormData }) {
                         ]}
                     />
 
-                    <UnformInputRadio
+                    <UnformInputTextField
                         labelText="4) Como seu município opera o Transporte Escolar? (1):"
                         name="form_4_operar_transporte"
                         options={[
@@ -114,17 +126,18 @@ export default function GeneralData({ page, setPage, formData, setFormData }) {
                         ]}
                     />
 
-                    <UnformInputRadio
+                    <UnformInputTextField
                         labelText="8) Qual o total de alunos transportados? (1)"
                         name="form_8_total_alunos"
+                        type="number"
                         options={[
                             {
                                 label: 'Frota Própria',
-                                value: 'propria',
+                                name: 'propria',
                             },
                             {
                                 label: 'Frota Terceirizada',
-                                value: 'terceirizada',
+                                name: 'terceirizada',
                             },
                         ]}
                     />

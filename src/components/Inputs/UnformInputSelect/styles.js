@@ -32,23 +32,14 @@ export const SelectField = styled.div`
     }
 `;
 
-export const FalseInput = styled.div`
-    cursor: pointer;
+export const Input = styled.input`
     user-select: none;
     width: 100%;
     padding: 6px 40px 6px 10px;
 
     font-size: 14px;
-    ${(props) =>
-        props.hasPlaceholder
-            ? css`
-                  font-weight: 300;
-                  color: rgba(0, 0, 0, 0.7);
-              `
-            : css`
-                  font-weight: 400;
-                  color: var(--color-black);
-              `}
+    font-weight: 400;
+    color: var(--color-black);
 
     border-radius: 3px;
     border: 1px solid;
@@ -57,11 +48,18 @@ export const FalseInput = styled.div`
     border-top: none;
 
     transition: border 0.2s ease-in;
+
+    &:focus {
+        outline: none;
+    }
 `;
 
 export const Select = styled.div`
     position: relative;
     width: 100%;
+
+    .false-input {
+    }
 
     .real-input {
         display: none;
