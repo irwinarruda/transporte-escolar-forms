@@ -21,5 +21,6 @@ export function useErrorHandler() {
         } else {
             errorMessage = err.message;
         }
+        return errorMessage;
     });
 }

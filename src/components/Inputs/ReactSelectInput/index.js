@@ -21,11 +21,6 @@ export default function ReactSelectInput({
     const selectRef = React.useRef(null);
     const componentRef = React.useRef(null);
     const { fieldName, defaultValue, error, registerField } = useField(name);
-    const [fieldText, setFieldText] = React.useState(
-        placeholder || 'Selecione uma Opção',
-    );
-    const [fieldValue, setFieldValue] = React.useState('');
-    const [toggleOptions, setToggleOptions] = React.useState(false);
 
     React.useEffect(() => {
         registerField({
@@ -45,37 +40,6 @@ export default function ReactSelectInput({
             },
         });
     }, [fieldName, registerField, props.isMulti]);
-
-    React.useEffect(() => {
-        function handleClickOutside(event) {
-            if (
-                componentRef.current &&
-                !componentRef.current.contains(event.target)
-            ) {
-                setToggleOptions(false);
-            }
-        }
-
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [componentRef]);
-
-    const handleOptionChange = React.useCallback(
-        (event) => {
-            setFieldText(event.target.innerText);
-            setFieldValue(event.target.getAttribute('aria-valuetext'));
-            setToggleOptions(false);
-        },
-        [setFieldText, setFieldValue, setToggleOptions],
-    );
-
-    const handleFocus = React.useCallback(() => {});
-
-    const handleSelectClick = React.useCallback(() => {
-        setToggleOptions((prev) => !prev);
-    }, [setToggleOptions]);
 
     return (
         <SelectOptionContainer {...props}>
