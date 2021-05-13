@@ -5,31 +5,48 @@ import { QuestionsContainer } from '../../styles/style-questionario';
 import Header from '../../layouts/Header';
 import ButtonGoTo from '../../components/Buttons/ButtonGoTo';
 
-import { api, FORMS_GET_ONE } from '../../services/questionariosApi';
+import {
+    api,
+    FORMS_GET_ONE,
+    FORMS_SEND,
+} from '../../services/questionariosApi';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
 import { formFunctions } from '../../helpers/formHandler';
 import { makeValidationSchema } from '../../helpers/formValidationHandler';
 import getValidationErrors from '../../helpers/getValidationErrors';
+import { useAlertModal } from '../../hooks/AlertModal';
+import { useErrorHandler } from '../../hooks/Error';
 
 export default function Questionario({ formFields, formTitle, idPage }) {
     const router = useRouter();
+    const { createModal } = useAlertModal();
+    const errorHandler = useErrorHandler();
     const formRef = React.useRef(null);
     const [blockedFields, setBlockedFields] = React.useState([]);
     const selectInputs = {};
 
     async function handleFormSubmit(data) {
         try {
-            console.log(data);
             formRef.current.setErrors({});
             const schema = makeValidationSchema(formFields);
             await schema.validate(data, {
                 abortEarly: false,
             });
+
+            const body = {
+                id_questionario: idPage,
+                repostas: data,
+            };
+            console.log(body);
+            await api(FORMS_SEND(body));
+            createModal('success', { title: 'Sucesso!!' });
         } catch (err) {
             if (err instanceof Yup.ValidationError) {
                 formRef.current.setErrors(getValidationErrors(err));
                 return;
+            } else {
+                errorHandler('error', { title: 'Erro ao buscar dados' });
             }
         }
     }

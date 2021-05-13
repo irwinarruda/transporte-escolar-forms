@@ -66,12 +66,14 @@ export function CreateInputRadio({
                         if (blockedArr[i] === mostrarArr[j]) {
                             blockedArr.splice(i, 1);
                             mostrarArr.splice(j, 1);
-                            break;
+                            //break;
                         }
                     }
                 }
+                console.log('blockedArr: ', blockedArr);
                 setBlockedFields(blockedArr);
             });
+            console.log('blockedItems: ', blockedItems);
             setBlockedFields((prev) => [...prev, ...blockedItems]);
         }
     }, [radioValue]);
