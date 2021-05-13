@@ -18,7 +18,8 @@ export const Container = styled.div`
         textarea {
             resize: none;
             display: block;
-            max-width: ${(props) => (props.bigTextField ? '100%' : '330px')};
+            max-width: ${(props) =>
+                props.bigTextField ? '100%' : 'var(--input-field-width)'};
             width: 100%;
             height: 80px;
             padding: 6px 10px 6px 10px;

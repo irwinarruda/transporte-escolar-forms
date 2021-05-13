@@ -7,6 +7,7 @@ export default function UnformInputRadio({
     labelText,
     options,
     other = false,
+    setRadioValue,
     ...props
 }) {
     const inputRefs = React.useRef([]);
@@ -14,13 +15,14 @@ export default function UnformInputRadio({
     const { fieldName, registerField, defaultValue = '', error } = useField(
         name,
     );
-
     React.useEffect(() => {
         registerField({
             name: fieldName,
             ref: inputRefs,
             getValue: (refs) => {
-                return refs.current.find((input) => input?.checked)?.value;
+                return (
+                    refs.current.find((input) => input?.checked)?.value || ''
+                );
             },
             setValue: (refs, id) => {
                 const inputRef = refs.current.find((ref) => {
@@ -41,7 +43,11 @@ export default function UnformInputRadio({
         <Container>
             <p>{labelText}</p>
             <div className="input-field">
-                <RadioField>
+                <RadioField
+                    onChange={(e) => {
+                        setRadioValue(e.target.value);
+                    }}
+                >
                     {options.map((option, index) => {
                         if (other && index + 1 === options.length) {
                             return (

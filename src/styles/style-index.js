@@ -27,6 +27,7 @@ export const HeaderContainer = styled.section`
             border: none;
             border-radius: 5px;
             background-color: var(--color-blue);
+            text-transform: uppercase;
             transition: all 0.1s linear;
 
             & + a {

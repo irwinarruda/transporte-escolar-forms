@@ -16,7 +16,7 @@ export default function UnformInputTextField({
                     <UnformInputText
                         key={index}
                         labelText={option.label}
-                        name={`${name}.${option.name}`}
+                        name={`${name}.${option.value}`}
                         {...props}
                     />
                 ))}

@@ -1,31 +1,22 @@
 import React from 'react';
 import { useField } from '@unform/core';
-import { RiArrowDownSLine } from 'react-icons/ri';
-import {
-    Selecta,
-    Option,
-    SelectField,
-    FalseInput,
-    SelectOptionContainer,
-} from './styles';
+import { SelectField, SelectOptionContainer } from './styles';
 import ReactSelect from 'react-select';
 
-export default function ReactSelectInput({
+export default function UnformSelectFetch({
     labelText,
-    options,
     name,
     placeholder,
     bigTextField = false,
+    optionsFetch,
+    selectValue,
+    setSelectValue,
     ...props
 }) {
     const selectRef = React.useRef(null);
     const componentRef = React.useRef(null);
     const { fieldName, defaultValue, error, registerField } = useField(name);
-    const [fieldText, setFieldText] = React.useState(
-        placeholder || 'Selecione uma Opção',
-    );
-    const [fieldValue, setFieldValue] = React.useState('');
-    const [toggleOptions, setToggleOptions] = React.useState(false);
+    const [options, setOptions] = React.useState([]);
 
     React.useEffect(() => {
         registerField({
@@ -46,45 +37,27 @@ export default function ReactSelectInput({
         });
     }, [fieldName, registerField, props.isMulti]);
 
-    React.useEffect(() => {
-        function handleClickOutside(event) {
-            if (
-                componentRef.current &&
-                !componentRef.current.contains(event.target)
-            ) {
-                setToggleOptions(false);
-            }
-        }
-
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [componentRef]);
-
-    const handleOptionChange = React.useCallback(
-        (event) => {
-            setFieldText(event.target.innerText);
-            setFieldValue(event.target.getAttribute('aria-valuetext'));
-            setToggleOptions(false);
-        },
-        [setFieldText, setFieldValue, setToggleOptions],
-    );
-
-    const handleFocus = React.useCallback(() => {});
-
-    const handleSelectClick = React.useCallback(() => {
-        setToggleOptions((prev) => !prev);
-    }, [setToggleOptions]);
+    const handleFocus = React.useCallback(async () => {
+        const newOptions = await optionsFetch();
+        setOptions(newOptions);
+    }, [setOptions]);
 
     return (
-        <SelectOptionContainer {...props}>
+        <SelectOptionContainer>
             <label className="label-system" htmlFor={name}>
                 {labelText}
             </label>
-            <SelectField ref={componentRef}>
+            <SelectField
+                ref={componentRef}
+                hasValue={selectValue.value}
+                bigTextField={bigTextField}
+            >
                 <div className="input-field">
                     <ReactSelect
+                        value={selectValue}
+                        onChange={(item) => setSelectValue(item)}
+                        onFocus={handleFocus}
+                        placeholder="Selecione uma Opção"
                         defaultValue={defaultValue}
                         ref={selectRef}
                         classNamePrefix="react-select"
