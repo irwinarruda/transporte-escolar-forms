@@ -4,7 +4,6 @@ export default createGlobalStyle`
     :root {
         --font-primary: 'Roboto', sans-serif;
         --font-secondary: 'Lora', serif;
-        --color-white: #FFFFFF;
         --color-black: #1E1900;
         --color-grey: #CDCDCD;
         --color-yellow: #FBCF02;
@@ -13,10 +12,8 @@ export default createGlobalStyle`
         --color-blue: #5E7B9E;
         --color-dark-blue: #536780;
         --color-red: #FF6161;
-        --padding-mobile: 24px;
-        --margin-mobile: 15px;
-        --content-block-width: 635px;
-        /*
+        --color-green: #07a43c;
+        --color-dark-green: #059B38;
         --color-darker-white: #F4F4F4;
         --color-bg-white: #FAFAFA;
         --color-white: #FFFFFF;
@@ -24,7 +21,26 @@ export default createGlobalStyle`
         --color-bg-grey: #818181;
         --color-dark-grey: #E5E5E5;
         --color-grey: #6B6B6B;
-        --color-black: #383A3A; */
+        --padding-mobile: 24px;
+        --margin-mobile: 15px;
+        --content-block-width: 635px;
+        --input-field-width: 300px;
+    }
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var(--color-blue);
+        border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--color-dark-blue);
     }
     * {
         box-sizing: border-box;

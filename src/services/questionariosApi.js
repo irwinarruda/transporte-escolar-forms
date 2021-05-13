@@ -1,9 +1,10 @@
 import axios from 'axios';
 
-export const AUTH_TOKEN = '77fe56621e6df535a299db24688f67f6';
+//export const AUTH_TOKEN = '77fe56621e6df535a299db24688f67f6';
+export const AUTH_TOKEN = `${process.env.NEXT_PUBLIC_BASE_TOKEN}`;
 
-//export const BASE_URL = 'http://localhost:8080';
-export const BASE_URL = 'http://pesquisaufg.umarleyricardo.eti.br';
+export const BASE_URL = 'http://localhost:8080';
+//export const BASE_URL = 'http://pesquisaufg.umarleyricardo.eti.br';
 
 export const api = axios.create({
     baseURL: BASE_URL,

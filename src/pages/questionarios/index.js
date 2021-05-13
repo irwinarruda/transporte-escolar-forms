@@ -12,7 +12,10 @@ export default function Questionarios({ data }) {
                     <div className="header-buttons">
                         {data.length > 0 &&
                             data.map((item) => (
-                                <Link href={`/questionarios/${item.id}`}>
+                                <Link
+                                    href={`/questionarios/${item.id}`}
+                                    key={item.id}
+                                >
                                     <a>{item.titulo.split(' - ')[1]}</a>
                                 </Link>
                             ))}

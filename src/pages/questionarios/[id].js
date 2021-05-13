@@ -1,52 +1,79 @@
 import React from 'react';
-import Header from '../../layouts/Header';
+import { useRouter } from 'next/router';
 import { QuestionsContainer } from '../../styles/style-questionario';
-import { api, FORMS_GET_ONE } from '../../services/questionariosApi';
 
-import { Form } from '@unform/web';
-import { formFunctions } from '../../utils/formHandler';
+import Header from '../../layouts/Header';
 import ButtonGoTo from '../../components/Buttons/ButtonGoTo';
 
-export default function Questionario({ data, idPage }) {
-    /* const [data, setData] = React.useState([]);
-    React.useEffect(() => {
-        async function getData() {
-            try {
-                const response = await api(FORMS_GET_ONE(idPage));
-                const data = await response.data;
-                setData(data);
-            } catch (err) {
-                console.log({ ...err });
+import { api, FORMS_GET_ONE } from '../../services/questionariosApi';
+import { Form } from '@unform/web';
+import * as Yup from 'yup';
+import { formFunctions } from '../../helpers/formHandler';
+import { makeValidationSchema } from '../../helpers/formValidationHandler';
+import getValidationErrors from '../../helpers/getValidationErrors';
+
+export default function Questionario({ formFields, formTitle, idPage }) {
+    const router = useRouter();
+    const formRef = React.useRef(null);
+    const [blockedFields, setBlockedFields] = React.useState([]);
+    const selectInputs = {};
+
+    async function handleFormSubmit(data) {
+        try {
+            console.log(data);
+            formRef.current.setErrors({});
+            const schema = makeValidationSchema(formFields);
+            await schema.validate(data, {
+                abortEarly: false,
+            });
+        } catch (err) {
+            if (err instanceof Yup.ValidationError) {
+                formRef.current.setErrors(getValidationErrors(err));
+                return;
             }
         }
-        getData();
-    }, []); */
-    function handleFormSubmit(data) {
-        console.log(data);
     }
+
     return (
         <>
             <Header
                 title={
-                    data.titulo || 'Questionário - Operação Transporte Escolar'
+                    formTitle || 'Questionário - Operação Transporte Escolar'
                 }
             />
             <QuestionsContainer>
                 <div className="form-content-container">
                     <div className="form-content-bar"></div>
-                    <Form onSubmit={handleFormSubmit} id="city_id_form">
-                        {data.length > 0 &&
-                            data.map((item) => {
-                                let tipoFunction = formFunctions.get(item.tipo);
-                                return tipoFunction(item);
+                    <Form
+                        onSubmit={handleFormSubmit}
+                        ref={formRef}
+                        id="cecate_forms"
+                    >
+                        {formFields.length > 0 &&
+                            formFields.map((item) => {
+                                let TipoFunction = formFunctions.get(item.tipo);
+                                return (
+                                    <TipoFunction
+                                        formItem={item}
+                                        key={item.id_pergunta}
+                                        selectInputs={selectInputs}
+                                        blockedFields={blockedFields}
+                                        setBlockedFields={setBlockedFields}
+                                    />
+                                );
                             })}
                     </Form>
-                    <div className="form_content_buttons">
-                        <ButtonGoTo type="text">Voltar</ButtonGoTo>
-                        <ButtonGoTo type="submit" form="city_id_form">
-                            Próximo
-                        </ButtonGoTo>
-                    </div>
+                </div>
+                <div className="form_content_buttons">
+                    <ButtonGoTo
+                        type="button"
+                        onClick={() => router.push(`/questionarios`)}
+                    >
+                        Voltar
+                    </ButtonGoTo>
+                    <ButtonGoTo type="submit" form="cecate_forms">
+                        Enviar
+                    </ButtonGoTo>
                 </div>
             </QuestionsContainer>
         </>
@@ -75,7 +102,8 @@ export async function getStaticProps(context) {
     }
     return {
         props: {
-            data: realData,
+            formFields: realData.perguntas,
+            formTitle: realData.titulo,
             idPage: context.params.id,
         },
         revalidate: 172800,

@@ -17,7 +17,8 @@ export const Container = styled.div`
         margin-top: 22px;
         input {
             display: block;
-            max-width: ${(props) => (props.bigTextField ? '100%' : '330px')};
+            max-width: ${(props) =>
+                props.bigTextField ? '100%' : 'var(--input-field-width)'};
             width: 100%;
             padding: 6px 10px 6px 10px;
 

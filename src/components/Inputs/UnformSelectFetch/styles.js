@@ -12,7 +12,8 @@ export const SelectOptionContainer = styled.div`
 
 export const SelectField = styled.div`
     width: 100%;
-    max-width: ${(props) => (props.bigTextField ? '100%' : '280px')};
+    max-width: ${(props) =>
+        props.bigTextField ? '100%' : 'var(--input-field-width)'};
     margin-top: 22px;
     position: relative;
     display: block;
@@ -36,6 +37,11 @@ export const SelectField = styled.div`
                 }
                 .react-select__value-container {
                     font-size: 14px;
+                    .react-select__single-value {
+                        ${(props) =>
+                            props.hasValue.length === 0 &&
+                            'color: hsl(0, 0%, 50%);'}
+                    }
                 }
             }
             & > .react-select__menu {

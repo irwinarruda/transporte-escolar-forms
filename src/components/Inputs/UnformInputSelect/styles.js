@@ -12,7 +12,8 @@ export const SelectOptionContainer = styled.div`
 
 export const SelectField = styled.div`
     width: 100%;
-    max-width: ${(props) => (props.bigTextField ? '100%' : '330px')};
+    max-width: ${(props) =>
+        props.bigTextField ? '100%' : 'var(--input-field-width)'};
     margin-top: 22px;
     position: relative;
     display: block;

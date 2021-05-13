@@ -1,26 +1,22 @@
 import React from 'react';
 import { useField } from '@unform/core';
-import { RiArrowDownSLine } from 'react-icons/ri';
-import {
-    Selecta,
-    Option,
-    SelectField,
-    FalseInput,
-    SelectOptionContainer,
-} from './styles';
+import { SelectField, SelectOptionContainer } from './styles';
 import ReactSelect from 'react-select';
 
-export default function ReactSelectInput({
+export default function UnformSelectFetch({
     labelText,
-    options,
     name,
     placeholder,
     bigTextField = false,
+    optionsFetch,
+    selectValue,
+    setSelectValue,
     ...props
 }) {
     const selectRef = React.useRef(null);
     const componentRef = React.useRef(null);
     const { fieldName, defaultValue, error, registerField } = useField(name);
+    const [options, setOptions] = React.useState([]);
 
     React.useEffect(() => {
         registerField({
@@ -41,14 +37,27 @@ export default function ReactSelectInput({
         });
     }, [fieldName, registerField, props.isMulti]);
 
+    const handleFocus = React.useCallback(async () => {
+        const newOptions = await optionsFetch();
+        setOptions(newOptions);
+    }, [setOptions]);
+
     return (
-        <SelectOptionContainer {...props}>
+        <SelectOptionContainer>
             <label className="label-system" htmlFor={name}>
                 {labelText}
             </label>
-            <SelectField ref={componentRef}>
+            <SelectField
+                ref={componentRef}
+                hasValue={selectValue.value}
+                bigTextField={bigTextField}
+            >
                 <div className="input-field">
                     <ReactSelect
+                        value={selectValue}
+                        onChange={(item) => setSelectValue(item)}
+                        onFocus={handleFocus}
+                        placeholder="Selecione uma Opção"
                         defaultValue={defaultValue}
                         ref={selectRef}
                         classNamePrefix="react-select"
