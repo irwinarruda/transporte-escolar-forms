@@ -18,9 +18,8 @@ export default function UnformTextArea({
             path: 'value',
         });
     }, [fieldName, registerField]);
-
     return (
-        <Container bigTextField={bigTextField}>
+        <Container bigTextField={bigTextField} hasError={error !== undefined}>
             <label htmlFor={name}>{labelText}</label>
             <div className="input-field">
                 <textarea
@@ -30,7 +29,7 @@ export default function UnformTextArea({
                     ref={inputRef}
                     {...props}
                 ></textarea>
-                <span>{error}</span>
+                <span className="input-error-message">{error}</span>
             </div>
         </Container>
     );

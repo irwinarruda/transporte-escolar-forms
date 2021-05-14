@@ -2,12 +2,12 @@ import React from 'react';
 import { useField } from '@unform/core';
 import { Container, RadioField, RadioItem } from './styles';
 
-export default function UnformInputRadio({
+export default function UnformInputRadioFieldAux({
     name,
     labelText,
     options,
     other = false,
-    setRadioValue = () => {},
+    setHasError = () => {},
     ...props
 }) {
     const inputRefs = React.useRef([]);
@@ -39,15 +39,15 @@ export default function UnformInputRadio({
         });
     }, [fieldName, registerField]);
 
+    React.useEffect(() => {
+        setHasError(error !== undefined);
+    }, [error]);
+
     return (
-        <Container hasError={error !== undefined}>
+        <Container>
             <p>{labelText}</p>
             <div className="input-field">
-                <RadioField
-                    onChange={(e) => {
-                        setRadioValue(e.target.value);
-                    }}
-                >
+                <RadioField>
                     {options.map((option, index) => {
                         if (other && index + 1 === options.length) {
                             return (

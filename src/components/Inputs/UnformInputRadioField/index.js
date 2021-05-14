@@ -1,5 +1,5 @@
 import React from 'react';
-import UnformInputRadio from '../UnformInputRadio';
+import UnformInputRadioFieldAux from '../UnformInputRadioFieldAux';
 import { Container, RadioField, OptionsField } from './styles';
 
 export default function UnformInputRadioField({
@@ -9,6 +9,7 @@ export default function UnformInputRadioField({
     options,
     ...props
 }) {
+    const [hasError, setHasError] = React.useState(false);
     const formHeightRef = React.useRef(null);
     const inputRadioValues = fieldValues.map((item) => {
         return {
@@ -17,7 +18,7 @@ export default function UnformInputRadioField({
     });
 
     return (
-        <Container formHeightRef={formHeightRef}>
+        <Container formHeightRef={formHeightRef} hasError={hasError}>
             <p>{labelText}</p>
             <div className="container-box-form">
                 <div className="box-form" ref={formHeightRef}>
@@ -31,11 +32,12 @@ export default function UnformInputRadioField({
                     </OptionsField>
                     <RadioField>
                         {options.map((option, index) => (
-                            <UnformInputRadio
+                            <UnformInputRadioFieldAux
                                 key={index}
                                 labelText={option.label}
                                 name={`${name}.${option.name}`}
                                 options={inputRadioValues}
+                                setHasError={setHasError}
                                 {...props}
                             />
                         ))}

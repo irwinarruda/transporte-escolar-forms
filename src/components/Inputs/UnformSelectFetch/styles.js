@@ -5,6 +5,12 @@ export const SelectOptionContainer = styled.div`
     box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.1);
     padding: 20px;
 
+    ${(props) =>
+        props.hasError &&
+        css`
+            box-shadow: 0px 0px 5px 1px var(--color-red);
+        `}
+
     label {
         margin-bottom: 15px;
     }

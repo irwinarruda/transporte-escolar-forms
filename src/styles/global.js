@@ -90,4 +90,15 @@ export default createGlobalStyle`
         cursor: pointer;
         text-decoration: none;
     }
+
+    .input-error-message {
+        min-height: 20px;
+        display: block;
+        margin-top: 5px;
+
+        color: var(--color-red);
+        font-weight: 500;
+        font-family: var(--font-secondary);
+        font-size: 14px;
+    }
 `;

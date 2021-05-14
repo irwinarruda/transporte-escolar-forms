@@ -1,6 +1,7 @@
 import React from 'react';
 import { api, AUTH_TOKEN } from '../services/questionariosApi';
 import { useErrorHandler } from '../hooks/Error';
+import { useAlertModal } from '../hooks/AlertModal';
 import UnformInputCheckbox from '../components/Inputs/UnformInputCheckbox';
 import UnformInputCheckboxField from '../components/Inputs/UnformInputCheckboxField';
 import UnformInputRadio from '../components/Inputs/UnformInputRadio';
@@ -24,9 +25,31 @@ export function handleMostrar(mostrar) {
     let mostrarTreated = mostrar.split(';');
     mostrarTreated.forEach((item, index) => {
         mostrarTreated[index] = item.split('/');
-        mostrarTreated[index][1] = mostrarTreated[index][1].split(',');
+        if (mostrarTreated[index][1] !== '') {
+            mostrarTreated[index][1] = mostrarTreated[index][1].split(',');
+        } else {
+            mostrarTreated[index][1] = null;
+        }
     });
     return mostrarTreated;
+}
+
+export function blockedFieldsCheck(blockedArr, mostrarArr) {
+    let i, j;
+    let blockedLength = blockedArr.length;
+    if (mostrarArr !== null) {
+        for (i = 0; i < blockedLength; i++) {
+            let mostrarLength = mostrarArr.length;
+            if (mostrarLength === 0) break;
+            j = mostrarArr.indexOf(blockedArr[i]);
+            if (j !== -1) {
+                blockedArr.splice(i, 1);
+                mostrarArr.splice(j, 1);
+                i--;
+            }
+        }
+    }
+    return blockedArr;
 }
 
 export function ValidationContainer({ children, blockedFields, formItem }) {
@@ -50,31 +73,19 @@ export function CreateInputRadio({
         if (formItem.mostrar) {
             const treatedMostrar = handleMostrar(formItem.mostrar);
             var blockedItems = [];
-            let i, j;
             treatedMostrar.forEach((item) => {
                 if (radioValue === item[0]) {
-                    blockedItems = [...item[1]];
+                    blockedItems = item[1] !== null ? [...item[1]] : null;
                 }
-                let mostrarArr = [...item[1]];
-                let blockedArr = [...blockedFields];
-                let blockedLength = blockedFields.length;
-
-                for (i = 0; i < blockedLength; i++) {
-                    let mostrarLength = mostrarArr.length;
-                    if (mostrarLength === 0) break;
-                    for (j = 0; j < mostrarLength; j++) {
-                        if (blockedArr[i] === mostrarArr[j]) {
-                            blockedArr.splice(i, 1);
-                            mostrarArr.splice(j, 1);
-                            //break;
-                        }
-                    }
-                }
-                console.log('blockedArr: ', blockedArr);
-                setBlockedFields(blockedArr);
+                setBlockedFields((prev) => {
+                    return blockedFieldsCheck(
+                        [...prev],
+                        item[1] !== null ? [...item[1]] : null,
+                    );
+                });
             });
-            console.log('blockedItems: ', blockedItems);
-            setBlockedFields((prev) => [...prev, ...blockedItems]);
+            if (blockedItems !== null)
+                setBlockedFields((prev) => [...prev, ...blockedItems]);
         }
     }, [radioValue]);
     return (
@@ -156,9 +167,11 @@ export function CreateInputRadioField({
 export function CreateSelect({
     formItem,
     selectInputs,
+    setSelectInputs,
     blockedFields,
     setBlockedFields,
 }) {
+    const { createModal } = useAlertModal();
     const errorHandler = useErrorHandler();
     const [selectValue, setSelectValue] = React.useState({
         label: 'Selecione uma Opção',
@@ -170,6 +183,12 @@ export function CreateSelect({
             let apiUrl = formItem.api;
             if (formItem.pai !== null) {
                 const parent = selectInputs[`select_${formItem.pai}`];
+                if (parent.value === '') {
+                    createModal('warning', {
+                        title: 'Preencha o campo anterior',
+                    });
+                    return;
+                }
                 apiUrl = apiUrl.replace('{pai}', parent.value);
             }
             const response = await api.get(apiUrl, {

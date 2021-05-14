@@ -9,13 +9,14 @@ formValidations.set('5', validateInputRadioField);
 formValidations.set('6', validateSelect);
 formValidations.set('8', validateInputTextField);
 
-export function makeValidationSchema(data) {
+export function makeValidationSchema(data, blockedFields) {
     const validationSchema = {};
     data.forEach((formItem) => {
-        formValidations;
-        validationSchema[`form_${formItem.id_pergunta}`] = formValidations.get(
-            formItem.tipo,
-        )(formItem);
+        if (blockedFields.indexOf(formItem.id_pergunta) === -1) {
+            validationSchema[
+                `form_${formItem.id_pergunta}`
+            ] = formValidations.get(formItem.tipo)(formItem);
+        }
     });
     return Yup.object().shape(validationSchema);
 }

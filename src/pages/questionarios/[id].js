@@ -24,12 +24,23 @@ export default function Questionario({ formFields, formTitle, idPage }) {
     const errorHandler = useErrorHandler();
     const formRef = React.useRef(null);
     const [blockedFields, setBlockedFields] = React.useState([]);
-    const selectInputs = {};
+    const [selectInputs, setSelectInputs] = React.useState(() => {
+        let selectObj = {};
+        formFields.forEach((item) => {
+            if (item.tipo === '6') {
+                selectObj[`select_${item.id_pergunta}`] = {
+                    value: '',
+                    label: 'Selecione uma Opção',
+                };
+            }
+        });
+        return selectObj;
+    });
 
     async function handleFormSubmit(data) {
         try {
             formRef.current.setErrors({});
-            const schema = makeValidationSchema(formFields);
+            const schema = makeValidationSchema(formFields, blockedFields);
             await schema.validate(data, {
                 abortEarly: false,
             });
@@ -44,9 +55,14 @@ export default function Questionario({ formFields, formTitle, idPage }) {
         } catch (err) {
             if (err instanceof Yup.ValidationError) {
                 formRef.current.setErrors(getValidationErrors(err));
+                createModal('warning', {
+                    title: 'Atenção',
+                    text: 'Preencha todos os campos',
+                });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
                 return;
             } else {
-                errorHandler('error', { title: 'Erro ao buscar dados' });
+                errorHandler('error', { title: 'Oops!' });
             }
         }
     }
@@ -74,6 +90,7 @@ export default function Questionario({ formFields, formTitle, idPage }) {
                                         formItem={item}
                                         key={item.id_pergunta}
                                         selectInputs={selectInputs}
+                                        setSelectInputs={setSelectInputs}
                                         blockedFields={blockedFields}
                                         setBlockedFields={setBlockedFields}
                                     />

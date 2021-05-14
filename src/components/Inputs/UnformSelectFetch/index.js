@@ -1,6 +1,7 @@
 import React from 'react';
 import { useField } from '@unform/core';
 import { SelectField, SelectOptionContainer } from './styles';
+import { ReactSVG } from 'react-svg';
 import ReactSelect from 'react-select';
 
 export default function UnformSelectFetch({
@@ -16,6 +17,7 @@ export default function UnformSelectFetch({
     const selectRef = React.useRef(null);
     const componentRef = React.useRef(null);
     const { fieldName, defaultValue, error, registerField } = useField(name);
+    const [loading, setLoading] = React.useState(false);
     const [options, setOptions] = React.useState([]);
 
     React.useEffect(() => {
@@ -38,12 +40,15 @@ export default function UnformSelectFetch({
     }, [fieldName, registerField, props.isMulti]);
 
     const handleFocus = React.useCallback(async () => {
+        setLoading(true);
+        setOptions([]);
         const newOptions = await optionsFetch();
         setOptions(newOptions);
+        setLoading(false);
     }, [setOptions]);
 
     return (
-        <SelectOptionContainer>
+        <SelectOptionContainer hasError={error !== undefined}>
             <label className="label-system" htmlFor={name}>
                 {labelText}
             </label>
@@ -64,11 +69,17 @@ export default function UnformSelectFetch({
                         options={options}
                         inputId={name}
                         loadingMessage="Procurando dados"
-                        noOptionsMessage={() => 'Nenhum dado carregado'}
+                        noOptionsMessage={() =>
+                            loading ? (
+                                <ReactSVG src="/svg/spinner.svg" />
+                            ) : (
+                                'Nenhum dado carregado'
+                            )
+                        }
                         {...props}
                     />
                 </div>
-                <span>{error}</span>
+                <span className="input-error-message">{error}</span>
             </SelectField>
         </SelectOptionContainer>
     );

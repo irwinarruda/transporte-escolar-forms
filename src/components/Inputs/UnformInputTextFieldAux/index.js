@@ -2,10 +2,11 @@ import React from 'react';
 import { useField } from '@unform/core';
 import { Container } from './styles';
 
-export default function UnformInputText({
+export default function UnformInputTextFieldAux({
     labelText,
     name,
     bigTextField = false,
+    setHasError = () => {},
     ...props
 }) {
     const inputRef = React.useRef(null);
@@ -19,8 +20,12 @@ export default function UnformInputText({
         });
     }, [fieldName, registerField]);
 
+    React.useEffect(() => {
+        setHasError(error !== undefined);
+    }, [error]);
+
     return (
-        <Container bigTextField={bigTextField} hasError={error !== undefined}>
+        <Container bigTextField={bigTextField}>
             <label htmlFor={name}>{labelText}</label>
             <div className="input-field">
                 <input
