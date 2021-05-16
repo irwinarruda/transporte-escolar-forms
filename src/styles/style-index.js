@@ -11,6 +11,28 @@ export const HeaderContainer = styled.section`
         text-align: left;
     }
 
+    .header-list {
+        margin-top: 25px;
+        margin-bottom: 15px;
+        li {
+            list-style: disc;
+            margin-left: 20px;
+
+            & + li {
+                margin-top: 5px;
+            }
+
+            & > a {
+                font-size: 18px;
+                font-weight: 400;
+                color: var(--color-blue);
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+
     .header-buttons {
         max-width: fit-content;
         width: 100%;

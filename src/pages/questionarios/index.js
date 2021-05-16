@@ -6,20 +6,19 @@ import { api, FORMS_GET } from '../../services/questionariosApi';
 export default function Questionarios({ data }) {
     return (
         <>
-            <Header title="Questionários - Projeto Transporte Escolar">
+            <Header title="Questionários Disponíveis para Resposta">
                 <HeaderContainer>
                     <h2>Escolha uma das Opções:</h2>
-                    <div className="header-buttons">
+                    <ul className="header-list">
                         {data.length > 0 &&
                             data.map((item) => (
-                                <Link
-                                    href={`/questionarios/${item.id}`}
-                                    key={item.id}
-                                >
-                                    <a>{item.titulo.split(' - ')[1]}</a>
-                                </Link>
+                                <li key={item.id}>
+                                    <Link href={`/questionarios/${item.id}`}>
+                                        <a>{item.titulo}</a>
+                                    </Link>
+                                </li>
                             ))}
-                    </div>
+                    </ul>
                 </HeaderContainer>
             </Header>
         </>

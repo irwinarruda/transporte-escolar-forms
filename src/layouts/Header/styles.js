@@ -13,6 +13,7 @@ export const Container = styled.header`
     overflow: hidden;
 
     h1 {
+        width: 100%;
         margin-bottom: 15px;
     }
 

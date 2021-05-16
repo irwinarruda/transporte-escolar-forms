@@ -1,9 +1,8 @@
 import axios from 'axios';
 
-export const AUTH_TOKEN = `${process.env.NEXT_PUBLIC_BASE_TOKEN}`;
+export const AUTH_TOKEN = process.env.NEXT_PUBLIC_BASE_TOKEN;
 
-export const BASE_URL = 'http://localhost:8080';
-//export const BASE_URL = 'http://pesquisaufg.umarleyricardo.eti.br';
+export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const api = axios.create({
     baseURL: BASE_URL,
