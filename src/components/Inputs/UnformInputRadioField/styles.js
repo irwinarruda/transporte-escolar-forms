@@ -20,9 +20,9 @@ export const Container = styled.div`
             overflow-x: auto;
 
             height: ${(props) =>
-                props.formHeightRef.current
-                    ? props.formHeightRef.current.offsetHeight
-                    : 300}px;
+                props.formHeightRef?.current
+                    ? props.formHeightRef?.current.offsetHeight
+                    : 400}px;
             display: block;
             position: relative;
             .box-form {
@@ -65,57 +65,4 @@ export const OptionsField = styled.div`
 
 export const RadioField = styled.div`
     margin-top: 10px;
-
-    & > div {
-        display: flex;
-        align-items: center;
-        padding: 7px;
-        background-color: #fcfcfc;
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        box-shadow: none;
-
-        & > p {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            min-width: 125px;
-            max-width: 125px;
-            font-size: 14px;
-        }
-
-        & > .input-field {
-            width: 100%;
-            margin-left: 10px;
-            display: block;
-            & > div {
-                display: flex;
-
-                width: 100%;
-                margin-top: 0px;
-                & > label {
-                    display: flex;
-                    justify-content: center;
-
-                    max-width: 90px;
-                    padding: 0px 10px;
-                    width: 100%;
-                    margin: 0px;
-
-                    & > span {
-                        margin: 0px;
-                    }
-                }
-            }
-
-            & > span {
-                margin-top: 0px;
-                margin-left: 25px;
-                min-height: auto;
-            }
-        }
-
-        & + div {
-            margin-top: 20px;
-        }
-    }
 `;

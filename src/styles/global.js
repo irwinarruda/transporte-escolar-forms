@@ -23,8 +23,8 @@ export default createGlobalStyle`
         --color-grey: #6B6B6B;
         --padding-mobile: 24px;
         --margin-mobile: 15px;
-        --content-block-width: 635px;
-        --input-field-width: 300px;
+        --content-block-width: 735px;
+        --input-field-width: 370px;
     }
     ::-webkit-scrollbar {
         width: 10px;
