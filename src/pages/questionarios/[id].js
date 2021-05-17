@@ -47,7 +47,7 @@ export default function Questionario({ formFields, formTitle, idPage }) {
 
             const body = {
                 id_questionario: idPage,
-                repostas: data,
+                respostas: data,
             };
             console.log(body);
             await api(FORMS_SEND(body));
