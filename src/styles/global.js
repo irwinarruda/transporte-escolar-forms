@@ -9,6 +9,7 @@ export default createGlobalStyle`
         --color-yellow: #FBCF02;
         --color-light-yellow: #FFEB8E;
         --color-bg-yellow: #FFFDF4;
+        --color-sand-yellow: #EFEDE3;
         --color-blue: #5E7B9E;
         --color-dark-blue: #536780;
         --color-red: #FF6161;
@@ -57,7 +58,7 @@ export default createGlobalStyle`
         width: 100%;
         height: 100%;
         font-family: var(--font-primary);
-        background-color: var(--color-bg-yellow);
+        background-color: var(--color-sand-yellow);
     }
 
     #__next {
