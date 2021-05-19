@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { HeaderContainer } from '../../styles/style-index';
+import { HeaderContainer } from '../../styles/style-questionario';
 import Header from '../../layouts/Header';
 import { api, FORMS_GET } from '../../services/questionariosApi';
 

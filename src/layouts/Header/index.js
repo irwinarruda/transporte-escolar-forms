@@ -5,7 +5,7 @@ export default function Header({ children, title }) {
     return (
         <Container>
             <div className="header-bar"></div>
-            <h1>{title}</h1>
+            {title && <h1>{title}</h1>}
             {children}
         </Container>
     );

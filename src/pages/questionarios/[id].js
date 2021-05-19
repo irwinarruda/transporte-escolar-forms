@@ -20,7 +20,7 @@ import { useErrorHandler } from '../../hooks/Error';
 
 export default function Questionario({ formFields, formTitle, idPage }) {
     const router = useRouter();
-    const { createModal } = useAlertModal();
+    const { createModal, createModalAsync } = useAlertModal();
     const errorHandler = useErrorHandler();
     const formRef = React.useRef(null);
     const [blockedFields, setBlockedFields] = React.useState([]);
@@ -44,14 +44,16 @@ export default function Questionario({ formFields, formTitle, idPage }) {
             await schema.validate(data, {
                 abortEarly: false,
             });
-
             const body = {
                 id_questionario: idPage,
                 respostas: data,
             };
-            console.log(body);
             await api(FORMS_SEND(body));
-            createModal('success', { title: 'Sucesso!!' });
+            await createModalAsync('success', {
+                title: 'Sucesso!!',
+                text: 'Formulário preenchido com sucesso',
+            });
+            router.push('/questionarios/obrigado');
         } catch (err) {
             if (err instanceof Yup.ValidationError) {
                 formRef.current.setErrors(getValidationErrors(err));
@@ -62,6 +64,7 @@ export default function Questionario({ formFields, formTitle, idPage }) {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 return;
             } else {
+                console.log(err);
                 errorHandler('error', { title: 'Oops!' });
             }
         }
@@ -128,18 +131,22 @@ export async function getStaticPaths() {
     };
 }
 export async function getStaticProps(context) {
-    const response = await api(FORMS_GET_ONE(context.params.id));
-    const data = await response.data;
-    let realData = [];
-    if (data.result) {
-        realData = data.data;
+    try {
+        const response = await api(FORMS_GET_ONE(context.params.id));
+        const data = await response.data;
+        let realData = [];
+        if (data.result) {
+            realData = data.data;
+        }
+        return {
+            props: {
+                formFields: realData.perguntas,
+                formTitle: realData.titulo,
+                idPage: context.params.id,
+            },
+            revalidate: 172800,
+        };
+    } catch (err) {
+        console.error(err);
     }
-    return {
-        props: {
-            formFields: realData.perguntas,
-            formTitle: realData.titulo,
-            idPage: context.params.id,
-        },
-        revalidate: 172800,
-    };
 }
