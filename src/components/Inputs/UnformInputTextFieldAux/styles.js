@@ -6,12 +6,10 @@ export const Container = styled.div`
     padding: 20px 10px;
     background-color: #fcfcfc;
     border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
     box-shadow: none;
 
     label {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
         min-width: 125px;
         max-width: 125px;
         font-size: 14px;
@@ -54,5 +52,19 @@ export const Container = styled.div`
     }
     & + div {
         margin-top: 20px;
+    }
+
+    @media (max-width: 520px) {
+        flex-direction: column;
+        label {
+            margin-left: 0px;
+            max-width: none;
+            min-width: none;
+            width: 100%;
+        }
+        .input-field {
+            margin-left: 0px;
+            margin-top: 15px;
+        }
     }
 `;

@@ -83,7 +83,7 @@ export const QuestionsContainer = styled.section`
         width: 100%;
         margin-top: 15px;
         padding: var(--padding-mobile);
-        padding-top: 22px;
+        padding-top: 40px;
         position: relative;
 
         background-color: #ffffff;

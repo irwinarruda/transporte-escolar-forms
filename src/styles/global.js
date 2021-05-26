@@ -28,7 +28,7 @@ export default createGlobalStyle`
         --input-field-width: 370px;
     }
     ::-webkit-scrollbar {
-        width: 10px;
+        width: 14px;
     }
 
     ::-webkit-scrollbar-track {
@@ -37,7 +37,7 @@ export default createGlobalStyle`
 
     ::-webkit-scrollbar-thumb {
         background: var(--color-blue);
-        border-radius: 5px;
+        border-radius: 2px;
     }
 
     ::-webkit-scrollbar-thumb:hover {

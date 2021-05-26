@@ -6,7 +6,7 @@ export const alertTypes = {
     loading: {
         title: 'Carregando...',
         text: 'Procurando e carregando dados',
-        icon: '/svg/spinner.svg',
+        icon: '/svg/spinner-modal.svg',
         className: 'swal-custom-loading',
         closeOnClickOutside: false,
     },
@@ -59,6 +59,7 @@ export const AlertModalStyles = createGlobalStyle`
             color: var(--color-black);
         }
         & > .swal-text {
+            text-align: center;
             font-family: var(--font-primary);
             font-weight: 400;
             font-size: 16px;

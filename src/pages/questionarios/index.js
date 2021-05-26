@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { HeaderContainer } from '../../styles/style-questionario';
 import Header from '../../layouts/Header';
 import { api, FORMS_GET } from '../../services/questionariosApi';
+import staticPropsConfig from '../../config/staticPropsConfig';
 
 export default function Questionarios({ data }) {
     return (
@@ -26,15 +27,20 @@ export default function Questionarios({ data }) {
 }
 
 export async function getStaticProps() {
-    const response = await api(FORMS_GET());
-    const data = await response.data;
-    let realData = [];
-    if (data.result) {
-        realData = data.data;
+    try {
+        const response = await api(FORMS_GET());
+        const data = await response.data;
+        let realData = [];
+        if (data.result) {
+            realData = data.data;
+        }
+        return {
+            props: {
+                data: realData,
+            },
+            revalidate: staticPropsConfig.revalidate,
+        };
+    } catch (err) {
+        console.log(err);
     }
-    return {
-        props: {
-            data: realData,
-        },
-    };
 }

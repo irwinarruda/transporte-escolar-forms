@@ -1,16 +1,18 @@
 import React from 'react';
+import axios from 'axios';
 import { api, AUTH_TOKEN } from '../services/questionariosApi';
 import { useErrorHandler } from '../hooks/Error';
 import { useAlertModal } from '../hooks/AlertModal';
 import UnformInputCheckbox from '../components/Inputs/UnformInputCheckbox';
+import UnformSelect from '../components/Inputs/UnformSelect';
 import UnformInputCheckboxField from '../components/Inputs/UnformInputCheckboxField';
 import UnformInputRadio from '../components/Inputs/UnformInputRadio';
 import UnformInputRadioField from '../components/Inputs/UnformInputRadioField';
 import UnformInputText from '../components/Inputs/UnformInputText';
 import UnformInputTextField from '../components/Inputs/UnformInputTextField';
-import UnformSelect from '../components/Inputs/UnformSelect';
 import UnformSelectFetch from '../components/Inputs/UnformSelectFetch';
 import UnformTextArea from '../components/Inputs/UnformTextArea';
+import UnformInputTextSearch from '../components/Inputs/UnformInputTextSearch';
 
 export const formFunctions = new Map();
 formFunctions.set('1', CreateInputRadio);
@@ -20,6 +22,7 @@ formFunctions.set('4', CreateTextArea);
 formFunctions.set('5', CreateInputRadioField);
 formFunctions.set('6', CreateSelect);
 formFunctions.set('8', CreateInputTextField);
+formFunctions.set('9', CreateInputTextSearch);
 
 export function handleMostrar(mostrar) {
     let mostrarTreated = mostrar.split(';');
@@ -229,6 +232,53 @@ export function CreateInputTextField({
                     label: item.enunciado,
                     value: `res_${item.id_pergunta}`,
                 }))}
+            />
+        </ValidationContainer>
+    );
+}
+export function CreateInputTextSearch({
+    formItem,
+    blockedFields,
+    setBlockedFields,
+}) {
+    const errorHandler = useErrorHandler();
+    const { createModal, clearModal } = useAlertModal();
+    const inputRef = React.useRef(null);
+    const [options, setOptions] = React.useState('');
+    const handleSearchClick = React.useCallback(async () => {
+        try {
+            createModal();
+            const url = formItem.api.replace(
+                '{id}',
+                inputRef.current.value || '0',
+            );
+            const response = await axios.get(url, {
+                headers: {
+                    Authorization: AUTH_TOKEN,
+                },
+            });
+            const data = await response.data;
+            if (data.result) {
+                clearModal();
+                setOptions(data.data.messages);
+            } else {
+                createModal('warning', {
+                    title: 'Atenção',
+                    text: data.data.messages,
+                });
+            }
+        } catch (err) {
+            errorHandler(err, { title: 'Oops' });
+        }
+    }, [setOptions]);
+    return (
+        <ValidationContainer blockedFields={blockedFields} formItem={formItem}>
+            <UnformInputTextSearch
+                inputRef={inputRef}
+                labelText={formItem.enunciado}
+                name={`form_${formItem.id_pergunta}`}
+                handleSearchClick={handleSearchClick}
+                options={options}
             />
         </ValidationContainer>
     );

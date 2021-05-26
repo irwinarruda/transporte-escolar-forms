@@ -10,6 +10,7 @@ import {
     FORMS_GET_ONE,
     FORMS_SEND,
 } from '../../services/questionariosApi';
+import staticPropsConfig from '../../config/staticPropsConfig';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
 import { formFunctions } from '../../helpers/formHandler';
@@ -20,7 +21,7 @@ import { useErrorHandler } from '../../hooks/Error';
 
 export default function Questionario({ formFields, formTitle, idPage }) {
     const router = useRouter();
-    const { createModal, createModalAsync } = useAlertModal();
+    const { createModal, createModalAsync, clearModal } = useAlertModal();
     const errorHandler = useErrorHandler();
     const formRef = React.useRef(null);
     const [blockedFields, setBlockedFields] = React.useState([]);
@@ -39,6 +40,7 @@ export default function Questionario({ formFields, formTitle, idPage }) {
 
     async function handleFormSubmit(data) {
         try {
+            createModal();
             formRef.current.setErrors({});
             const schema = makeValidationSchema(formFields, blockedFields);
             await schema.validate(data, {
@@ -64,7 +66,6 @@ export default function Questionario({ formFields, formTitle, idPage }) {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 return;
             } else {
-                console.log(err);
                 errorHandler('error', { title: 'Oops!' });
             }
         }
@@ -123,7 +124,21 @@ export async function getStaticPaths() {
             {
                 params: {
                     id: '1',
+                },
+            },
+            {
+                params: {
                     id: '2',
+                },
+            },
+            {
+                params: {
+                    id: '3',
+                },
+            },
+            {
+                params: {
+                    id: '4',
                 },
             },
         ],
@@ -144,7 +159,7 @@ export async function getStaticProps(context) {
                 formTitle: realData.titulo,
                 idPage: context.params.id,
             },
-            revalidate: 172800,
+            revalidate: staticPropsConfig.revalidate,
         };
     } catch (err) {
         console.error(err);

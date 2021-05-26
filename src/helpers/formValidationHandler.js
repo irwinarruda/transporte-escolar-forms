@@ -8,6 +8,7 @@ formValidations.set('4', validateTextArea);
 formValidations.set('5', validateInputRadioField);
 formValidations.set('6', validateSelect);
 formValidations.set('8', validateInputTextField);
+formValidations.set('9', validateInputTextSearch);
 
 export function makeValidationSchema(data, blockedFields) {
     const validationSchema = {};
@@ -53,4 +54,7 @@ export function validateInputTextField(formItem) {
         );
     });
     return Yup.object().shape(res_obj);
+}
+export function validateInputTextSearch(formItem) {
+    return Yup.string().required('Este campo deve ser preenchido');
 }
