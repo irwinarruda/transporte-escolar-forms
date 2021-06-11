@@ -19,7 +19,7 @@ export default function UnformInputRadioField({
 
     return (
         <Container formHeightRef={formHeightRef} hasError={hasError}>
-            <p>{labelText}</p>
+            <p dangerouslySetInnerHTML={{ __html: labelText }}></p>
             <div className="container-box-form">
                 <div className="box-form" ref={formHeightRef}>
                     <OptionsField>

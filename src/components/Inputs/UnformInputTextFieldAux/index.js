@@ -26,7 +26,10 @@ export default function UnformInputTextFieldAux({
 
     return (
         <Container bigTextField={bigTextField}>
-            <label htmlFor={name}>{labelText}</label>
+            <label
+                htmlFor={name}
+                dangerouslySetInnerHTML={{ __html: labelText }}
+            ></label>
             <div className="input-field">
                 <input
                     defaultValue={defaultValue}

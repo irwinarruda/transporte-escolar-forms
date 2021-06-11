@@ -24,7 +24,10 @@ export default function UnformInputTextSearch({
 
     return (
         <Container bigTextField={bigTextField} hasError={error !== undefined}>
-            <label htmlFor={name}>{labelText}</label>
+            <label
+                htmlFor={name}
+                dangerouslySetInnerHTML={{ __html: labelText }}
+            ></label>
             <div className="search-input-field">
                 <div className="input-field">
                     <div className="input">

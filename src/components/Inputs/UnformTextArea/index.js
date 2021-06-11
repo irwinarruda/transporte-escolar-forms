@@ -20,7 +20,10 @@ export default function UnformTextArea({
     }, [fieldName, registerField]);
     return (
         <Container bigTextField={bigTextField} hasError={error !== undefined}>
-            <label htmlFor={name}>{labelText}</label>
+            <label
+                htmlFor={name}
+                dangerouslySetInnerHTML={{ __html: labelText }}
+            ></label>
             <div className="input-field">
                 <textarea
                     defaultValue={defaultValue}

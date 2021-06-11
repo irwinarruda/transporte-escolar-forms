@@ -1,5 +1,37 @@
 import styled from 'styled-components';
 
+export const HeaderText = styled.section`
+    line-height: 25px;
+    margin-top: 25px;
+`;
+
+export const HeaderGlossary = styled.section`
+    line-height: 25px;
+    margin-top: 20px;
+
+    h3 {
+        cursor: pointer;
+        width: 180px;
+        font-size: 23px;
+        font-weight: 400;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+
+        button {
+            padding-top: 13px;
+            span,
+            span:after,
+            span:before {
+                height: 2px;
+            }
+            span:after {
+                bottom: -8.5px;
+            }
+        }
+    }
+`;
+
 export const HeaderContainer = styled.section`
     margin-top: 24px;
     width: 100%;

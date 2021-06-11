@@ -12,9 +12,12 @@ export default function UnformInputRadio({
 }) {
     const inputRefs = React.useRef([]);
     const [otherValue, setOtherValue] = React.useState('');
-    const { fieldName, registerField, defaultValue = '', error } = useField(
-        name,
-    );
+    const {
+        fieldName,
+        registerField,
+        defaultValue = '',
+        error,
+    } = useField(name);
     React.useEffect(() => {
         registerField({
             name: fieldName,
@@ -41,7 +44,7 @@ export default function UnformInputRadio({
 
     return (
         <Container hasError={error !== undefined}>
-            <p>{labelText}</p>
+            <p dangerouslySetInnerHTML={{ __html: labelText }}></p>
             <div className="input-field">
                 <RadioField
                     onChange={(e) => {

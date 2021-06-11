@@ -10,7 +10,7 @@ export default function UnformInputCheckboxField({
 }) {
     return (
         <Container>
-            <p>{labelText}</p>
+            <p dangerouslySetInnerHTML={{ __html: labelText }}></p>
             <CheckboxField>
                 {options.map((option, index) => (
                     <UnformInputCheckbox

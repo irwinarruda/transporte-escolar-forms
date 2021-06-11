@@ -11,7 +11,7 @@ export default function UnformInputTextField({
     const [hasError, setHasError] = React.useState(false);
     return (
         <Container hasError={hasError}>
-            <p>{labelText}</p>
+            <p dangerouslySetInnerHTML={{ __html: labelText }}></p>
             <TextField>
                 {options.map((option, index) => (
                     <UnformInputTextFieldAux

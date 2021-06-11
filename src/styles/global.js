@@ -43,6 +43,9 @@ export default createGlobalStyle`
     ::-webkit-scrollbar-thumb:hover {
         background: var(--color-dark-blue);
     }
+    .ReactCollapse--collapse {
+        transition: height 350ms;
+    }
     * {
         box-sizing: border-box;
         margin: 0;
@@ -50,6 +53,12 @@ export default createGlobalStyle`
         font-size: 100%;
         font: inherit;
         vertical-align: baseline;
+    }
+    strong {
+        font-weight: 600;
+    }
+    b {
+        font-weight: 600;
     }
     ol, ul {
         list-style: none;

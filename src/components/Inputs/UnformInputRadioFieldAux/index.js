@@ -12,9 +12,12 @@ export default function UnformInputRadioFieldAux({
 }) {
     const inputRefs = React.useRef([]);
     const [otherValue, setOtherValue] = React.useState('');
-    const { fieldName, registerField, defaultValue = '', error } = useField(
-        name,
-    );
+    const {
+        fieldName,
+        registerField,
+        defaultValue = '',
+        error,
+    } = useField(name);
     React.useEffect(() => {
         registerField({
             name: fieldName,
@@ -45,7 +48,7 @@ export default function UnformInputRadioFieldAux({
 
     return (
         <Container>
-            <p>{labelText}</p>
+            <p dangerouslySetInnerHTML={{ __html: labelText }}></p>
             <div className="input-field">
                 <RadioField>
                     {options.map((option, index) => {

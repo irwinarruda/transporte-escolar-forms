@@ -1,7 +1,13 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { QuestionsContainer } from '../../styles/style-questionario';
+import {
+    QuestionsContainer,
+    HeaderText,
+    HeaderGlossary,
+} from '../../styles/style-questionario';
 
+import { Collapse } from 'react-collapse';
+import { HamburgerMinus } from 'react-animated-burgers';
 import Header from '../../layouts/Header';
 import ButtonGoTo from '../../components/Buttons/ButtonGoTo';
 
@@ -19,11 +25,12 @@ import getValidationErrors from '../../helpers/getValidationErrors';
 import { useAlertModal } from '../../hooks/AlertModal';
 import { useErrorHandler } from '../../hooks/Error';
 
-export default function Questionario({ formFields, formTitle, idPage }) {
+export default function Questionario({ formFields, formInfo, idPage }) {
     const router = useRouter();
     const { createModal, createModalAsync, clearModal } = useAlertModal();
     const errorHandler = useErrorHandler();
     const formRef = React.useRef(null);
+    const [glossary, setGlossary] = React.useState(false);
     const [blockedFields, setBlockedFields] = React.useState([]);
     const [selectInputs, setSelectInputs] = React.useState(() => {
         let selectObj = {};
@@ -70,14 +77,34 @@ export default function Questionario({ formFields, formTitle, idPage }) {
             }
         }
     }
-
+    const handleGlossaryClick = React.useCallback(() => {
+        setGlossary((prev) => !prev);
+    }, [setGlossary]);
     return (
         <>
             <Header
                 title={
-                    formTitle || 'Questionário - Operação Transporte Escolar'
+                    formInfo.titulo ||
+                    'Questionário - Operação Transporte Escolar'
                 }
-            />
+            >
+                <HeaderText
+                    dangerouslySetInnerHTML={{ __html: formInfo.texto }}
+                ></HeaderText>
+                <HeaderGlossary>
+                    <h3 onClick={handleGlossaryClick}>
+                        <HamburgerMinus buttonWidth={30} isActive={glossary} />
+                        Glossário
+                    </h3>
+                    <Collapse isOpened={glossary}>
+                        <div
+                            dangerouslySetInnerHTML={{
+                                __html: formInfo.glossario,
+                            }}
+                        ></div>
+                    </Collapse>
+                </HeaderGlossary>
+            </Header>
             <QuestionsContainer>
                 <div className="form-content-container">
                     <div className="form-content-bar"></div>
@@ -149,14 +176,19 @@ export async function getStaticProps(context) {
     try {
         const response = await api(FORMS_GET_ONE(context.params.id));
         const data = await response.data;
-        let realData = [];
+        let treatedData = [];
         if (data.result) {
-            realData = data.data;
+            treatedData = data.data;
         }
+        console.log(data);
         return {
             props: {
-                formFields: realData.perguntas,
-                formTitle: realData.titulo,
+                formFields: treatedData.perguntas,
+                formInfo: {
+                    titulo: treatedData.titulo || '',
+                    texto: treatedData.texto || '',
+                    glossario: treatedData.glossario || '',
+                },
                 idPage: context.params.id,
             },
             revalidate: staticPropsConfig.revalidate,

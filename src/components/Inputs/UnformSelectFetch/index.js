@@ -49,9 +49,11 @@ export default function UnformSelectFetch({
 
     return (
         <SelectOptionContainer hasError={error !== undefined}>
-            <label className="label-system" htmlFor={name}>
-                {labelText}
-            </label>
+            <label
+                className="label-system"
+                htmlFor={name}
+                dangerouslySetInnerHTML={{ __html: labelText }}
+            ></label>
             <SelectField
                 ref={componentRef}
                 hasValue={selectValue.value}

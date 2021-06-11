@@ -12,6 +12,8 @@
     "axios": "^0.21.1",
     "next": "latest",
     "react": "^16.8.0",
+    "react-animated-burgers": "^1.2.8",
+    "react-collapse": "^5.1.0",
     "react-confetti": "^6.0.1",
     "react-dom": "^16.8.0",
     "react-icons": "^4.2.0",

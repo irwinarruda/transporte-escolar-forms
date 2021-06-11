@@ -14,6 +14,7 @@ export const Container = styled.header`
 
     h1 {
         width: 100%;
+        display: block;
         margin-bottom: 15px;
     }
 

@@ -65,9 +65,11 @@ export default function UnformSelect({
 
     return (
         <SelectOptionContainer {...props}>
-            <label className="label-system" htmlFor={name}>
-                {labelText}
-            </label>
+            <label
+                className="label-system"
+                htmlFor={name}
+                dangerouslySetInnerHTML={{ __html: labelText }}
+            ></label>
             <SelectField ref={componentRef}>
                 <div className="input-field">
                     <Select
