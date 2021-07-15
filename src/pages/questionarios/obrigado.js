@@ -28,7 +28,7 @@ export default function Obrigado() {
                         <div className="obrigado-description">
                             <h4>
                                 Problemas ou Sugestões devem ser enviados ao
-                                email: <u>cpliufg@fnde.gov.br</u>
+                                email: <u>cepli-ufg@fnde.gov.br</u>
                             </h4>
                             <Link href="/questionarios">
                                 <a>
