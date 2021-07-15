@@ -9,9 +9,10 @@ export const HeaderGlossary = styled.section`
     line-height: 25px;
     margin-top: 20px;
 
-    h3 {
+    a {
         cursor: pointer;
         width: 180px;
+        color: var(--color-black);
         font-size: 23px;
         font-weight: 400;
         display: flex;
@@ -29,6 +30,9 @@ export const HeaderGlossary = styled.section`
                 bottom: -8.5px;
             }
         }
+    }
+    & > div {
+        font-size: 14px;
     }
 `;
 

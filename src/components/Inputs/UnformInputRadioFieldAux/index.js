@@ -12,12 +12,9 @@ export default function UnformInputRadioFieldAux({
 }) {
     const inputRefs = React.useRef([]);
     const [otherValue, setOtherValue] = React.useState('');
-    const {
-        fieldName,
-        registerField,
-        defaultValue = '',
-        error,
-    } = useField(name);
+    const { fieldName, registerField, defaultValue = '', error } = useField(
+        name,
+    );
     React.useEffect(() => {
         registerField({
             name: fieldName,
@@ -60,7 +57,7 @@ export default function UnformInputRadioFieldAux({
                                         ref={(ref) => {
                                             inputRefs.current[index] = ref;
                                         }}
-                                        id={option.value}
+                                        id={`radio-value-${option.value}`}
                                         name={name}
                                         defaultChecked={defaultValue.includes(
                                             option.value,
@@ -92,7 +89,7 @@ export default function UnformInputRadioFieldAux({
                                     ref={(ref) => {
                                         inputRefs.current[index] = ref;
                                     }}
-                                    id={option.value}
+                                    id={`radio-value-${option.value}`}
                                     name={name}
                                     defaultChecked={defaultValue.includes(
                                         option.value,

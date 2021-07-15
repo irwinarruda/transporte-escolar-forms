@@ -32,18 +32,6 @@ export default function Questionario({ formFields, formInfo, idPage }) {
     const formRef = React.useRef(null);
     const [glossary, setGlossary] = React.useState(false);
     const [blockedFields, setBlockedFields] = React.useState([]);
-    const [selectInputs, setSelectInputs] = React.useState(() => {
-        let selectObj = {};
-        formFields.forEach((item) => {
-            if (item.tipo === '6') {
-                selectObj[`select_${item.id_pergunta}`] = {
-                    value: '',
-                    label: 'Selecione uma Opção',
-                };
-            }
-        });
-        return selectObj;
-    });
 
     async function handleFormSubmit(data) {
         try {
@@ -77,9 +65,13 @@ export default function Questionario({ formFields, formInfo, idPage }) {
             }
         }
     }
-    const handleGlossaryClick = React.useCallback(() => {
-        setGlossary((prev) => !prev);
-    }, [setGlossary]);
+    const handleGlossaryClick = React.useCallback(
+        (event) => {
+            event.preventDefault();
+            setGlossary((prev) => !prev);
+        },
+        [setGlossary],
+    );
     return (
         <>
             <Header
@@ -92,12 +84,31 @@ export default function Questionario({ formFields, formInfo, idPage }) {
                     dangerouslySetInnerHTML={{ __html: formInfo.texto }}
                 ></HeaderText>
                 <HeaderGlossary>
-                    <h3 onClick={handleGlossaryClick}>
-                        <HamburgerMinus buttonWidth={30} isActive={glossary} />
+                    <a
+                        onClick={handleGlossaryClick}
+                        href="#glossaryCollapse"
+                        title="Abrir Glossário"
+                        role="button"
+                        aria-expanded={glossary}
+                        aria-controls="#glossaryCollapse"
+                    >
+                        <HamburgerMinus
+                            buttonWidth={30}
+                            isActive={glossary}
+                            aria-hidden="true"
+                            aria-expanded={glossary}
+                            aria-controls="#glossaryCollapse"
+                        />
                         Glossário
-                    </h3>
-                    <Collapse isOpened={glossary}>
+                    </a>
+                    <Collapse
+                        isOpened={glossary}
+                        id="glossaryCollapse"
+                        itemID="glossaryCollapse"
+                        role
+                    >
                         <div
+                            id="glossaryCollapse"
                             dangerouslySetInnerHTML={{
                                 __html: formInfo.glossario,
                             }}
@@ -120,8 +131,6 @@ export default function Questionario({ formFields, formInfo, idPage }) {
                                     <TipoFunction
                                         formItem={item}
                                         key={item.id_pergunta}
-                                        selectInputs={selectInputs}
-                                        setSelectInputs={setSelectInputs}
                                         blockedFields={blockedFields}
                                         setBlockedFields={setBlockedFields}
                                     />
@@ -148,16 +157,6 @@ export default function Questionario({ formFields, formInfo, idPage }) {
 export async function getStaticPaths() {
     return {
         paths: [
-            {
-                params: {
-                    id: '1',
-                },
-            },
-            {
-                params: {
-                    id: '2',
-                },
-            },
             {
                 params: {
                     id: '3',

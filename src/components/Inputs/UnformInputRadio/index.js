@@ -12,12 +12,9 @@ export default function UnformInputRadio({
 }) {
     const inputRefs = React.useRef([]);
     const [otherValue, setOtherValue] = React.useState('');
-    const {
-        fieldName,
-        registerField,
-        defaultValue = '',
-        error,
-    } = useField(name);
+    const { fieldName, registerField, defaultValue = '', error } = useField(
+        name,
+    );
     React.useEffect(() => {
         registerField({
             name: fieldName,
@@ -44,23 +41,33 @@ export default function UnformInputRadio({
 
     return (
         <Container hasError={error !== undefined}>
-            <p dangerouslySetInnerHTML={{ __html: labelText }}></p>
+            <p
+                dangerouslySetInnerHTML={{ __html: labelText }}
+                role="heading"
+                id={`form-heading-${name}`}
+            ></p>
             <div className="input-field">
                 <RadioField
                     onChange={(e) => {
                         setRadioValue(e.target.value);
                     }}
+                    aria-labelledby={`#form-heading-${name}`}
+                    aria-required="true"
+                    role="radiogroup"
                 >
                     {options.map((option, index) => {
                         if (other && index + 1 === options.length) {
                             return (
-                                <RadioItem key={option.value}>
+                                <RadioItem
+                                    key={option.value}
+                                    htmlFor={`radio-value-${option.value}`}
+                                >
                                     <input
                                         type="radio"
                                         ref={(ref) => {
                                             inputRefs.current[index] = ref;
                                         }}
-                                        id={option.value}
+                                        id={`radio-value-${option.value}`}
                                         name={name}
                                         defaultChecked={defaultValue.includes(
                                             option.value,
@@ -86,13 +93,16 @@ export default function UnformInputRadio({
                             );
                         }
                         return (
-                            <RadioItem key={option.value}>
+                            <RadioItem
+                                key={option.value}
+                                htmlFor={`radio-value-${option.value}`}
+                            >
                                 <input
                                     type="radio"
                                     ref={(ref) => {
                                         inputRefs.current[index] = ref;
                                     }}
-                                    id={option.value}
+                                    id={`radio-value-${option.value}`}
                                     name={name}
                                     defaultChecked={defaultValue.includes(
                                         option.value,

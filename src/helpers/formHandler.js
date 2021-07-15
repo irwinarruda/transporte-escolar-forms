@@ -167,32 +167,25 @@ export function CreateInputRadioField({
         </ValidationContainer>
     );
 }
-export function CreateSelect({
-    formItem,
-    selectInputs,
-    setSelectInputs,
-    blockedFields,
-    setBlockedFields,
-}) {
+export function CreateSelect({ formItem, blockedFields, setBlockedFields }) {
     const { createModal } = useAlertModal();
     const errorHandler = useErrorHandler();
-    const [selectValue, setSelectValue] = React.useState({
-        label: 'Selecione uma Opção',
-        value: '',
-    });
-    selectInputs[`select_${formItem.id_pergunta}`] = selectValue;
-    async function handleSelectFetch() {
+
+    const handleSelectFetch = React.useCallback(async () => {
         try {
             let apiUrl = formItem.api;
             if (formItem.pai !== null) {
-                const parent = selectInputs[`select_${formItem.pai}`];
-                if (parent.value === '') {
+                const parent = document.querySelector(`#form_${formItem.pai}`);
+                if (!parent || !parent.hasAttribute('data-value')) {
                     createModal('warning', {
                         title: 'Preencha o campo anterior',
                     });
                     return;
                 }
-                apiUrl = apiUrl.replace('{pai}', parent.value);
+                apiUrl = apiUrl.replace(
+                    '{pai}',
+                    parent.getAttribute('data-value'),
+                );
             }
             const response = await api.get(apiUrl, {
                 headers: {
@@ -205,15 +198,13 @@ export function CreateSelect({
         } catch (err) {
             errorHandler(err, { title: 'Erro ao buscar dados' });
         }
-    }
+    }, [errorHandler, createModal, api]);
     return (
         <ValidationContainer blockedFields={blockedFields} formItem={formItem}>
             <UnformSelectFetch
                 labelText={formItem.enunciado}
                 name={`form_${formItem.id_pergunta}`}
                 optionsFetch={handleSelectFetch}
-                selectValue={selectValue}
-                setSelectValue={setSelectValue}
             />
         </ValidationContainer>
     );

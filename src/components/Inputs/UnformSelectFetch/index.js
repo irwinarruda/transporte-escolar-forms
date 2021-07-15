@@ -10,12 +10,14 @@ export default function UnformSelectFetch({
     placeholder,
     bigTextField = false,
     optionsFetch,
-    selectValue,
-    setSelectValue,
     ...props
 }) {
     const selectRef = React.useRef(null);
     const componentRef = React.useRef(null);
+    const [selectValue, setSelectValue] = React.useState({
+        label: 'Selecione uma Opção',
+        value: '',
+    });
     const { fieldName, defaultValue, error, registerField } = useField(name);
     const [loading, setLoading] = React.useState(false);
     const [options, setOptions] = React.useState([]);
@@ -45,7 +47,17 @@ export default function UnformSelectFetch({
         const newOptions = await optionsFetch();
         setOptions(newOptions);
         setLoading(false);
-    }, [setOptions]);
+    }, [setOptions, setLoading, optionsFetch]);
+
+    const handleChange = React.useCallback(
+        (item) => {
+            setSelectValue(item);
+            document
+                .querySelector(`#${name}`)
+                .setAttribute('data-value', item.value);
+        },
+        [setSelectValue],
+    );
 
     return (
         <SelectOptionContainer hasError={error !== undefined}>
@@ -62,7 +74,7 @@ export default function UnformSelectFetch({
                 <div className="input-field">
                     <ReactSelect
                         value={selectValue}
-                        onChange={(item) => setSelectValue(item)}
+                        onChange={handleChange}
                         onFocus={handleFocus}
                         placeholder="Selecione uma Opção"
                         defaultValue={defaultValue}
