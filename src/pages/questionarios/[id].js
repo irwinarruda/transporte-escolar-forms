@@ -61,7 +61,7 @@ export default function Questionario({ formFields, formInfo, idPage }) {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 return;
             } else {
-                errorHandler('error', { title: 'Oops!' });
+                errorHandler(err, { title: 'Oops!' });
             }
         }
     }
@@ -179,7 +179,6 @@ export async function getStaticProps(context) {
         if (data.result) {
             treatedData = data.data;
         }
-        console.log(data);
         return {
             props: {
                 formFields: treatedData.perguntas,
@@ -193,6 +192,12 @@ export async function getStaticProps(context) {
             revalidate: staticPropsConfig.revalidate,
         };
     } catch (err) {
-        console.error(err);
+        return {
+            redirect: {
+                permanent: false,
+                destination: '/questionarios',
+            },
+            revalidate: staticPropsConfig.revalidate,
+        };
     }
 }
