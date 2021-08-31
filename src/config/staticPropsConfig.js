@@ -1,3 +1,3 @@
 export default {
-    revalidate: 86400,
+    revalidate: 1200,
 };
