@@ -1,25 +1,22 @@
+# Front-end of a forms service for research on transportation
 
-# Front-end do Serviço de Formulários para Pesquisa em Transportes
+A forms service for research on school transportation that contains a front-end made with Next.js receiving data from a [back-end made with PHP](https://github.com/umarley/pesquisa-transporte-escolar).
 
-Um serviço de formulários para pesquisas em transportes que conta com um front-end em NextJs recebendo dados do [back-end feito em PHP](https://github.com/umarley/pesquisa-transporte-escolar).
+## Technologies
 
-## Principais Tecnologias
+-   NextJs
+-   Styled-Components
+-   Unform
+-   Yup
+-   React Collapse
+-   SweetAlert
 
-* NextJs
-* Styled-Components
-* Unform
-* Yup
-* React Collapse
-* SweetAlert
+### Why Nextjs?
 
-### Por que Nextjs?
+Since a form tends to be a static page without dynamic changes of data, it’s good to keep in mind the speed in which the page loads to the user. Because of that, it makes sense to use [Next.js with getStaticProps](https://nextjs.org/docs/basic-features/data-fetching) instead of CRA.
 
-Para um formulário que permanecerá estático, sem mudança dinâmica de informações, é interessante prezar pela velocidade que a página chegará ao usuário. Por isso, faz sentido usar o [NextJs com getStaticProps](https://nextjs.org/docs/basic-features/data-fetching) em vez de CRA.
+### Why Unform?
 
-### Por que Unform?
+Also, since this forms service receives questions from a back-end, it would be hard to keep track of all the state variables for example. Not only that, but having a lot of states in a cases like this could create performance issues. Unform is a state management library for forms in React that doesn’t control the inputs, so it doesn’t create any state variable. Because of that, I decided to use Unform for the main functionality.
 
-Como o formulário recebe dados do backend para popular as perguntas, não se faz necessário controlar os inputs através dos states por exemplo. Só é preciso ter acesso aos dados dos inputs no submit. Como o nome já diz, [Unform](https://unform.dev/) é uma lib que faz exatamente o que foi descrito, ele busca não controlar os inputs por questão de performance, e por isso decidi utilizar ela.
-
-### Por que SweetAlert
-
-É um padrão na maioria dos meus projetos usar o [sweetalert](https://sweetalert.js.org/guides/) para lidar com modals informando o usuário de alguma ação. Para utiliza-lo criei um hook que faz uma implementação customizada da lib.
+---
