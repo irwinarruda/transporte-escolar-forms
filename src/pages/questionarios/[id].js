@@ -156,10 +156,8 @@ export default function Questionario({ formFields, formInfo, idPage }) {
 
 export async function getStaticPaths() {
     return {
-      paths: [
-        { params: {} }
-      ],
-      fallback: 'blocking' 
+        paths: [],
+        fallback: 'blocking' 
     };
 }
 
