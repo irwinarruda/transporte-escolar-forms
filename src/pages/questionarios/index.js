@@ -3,8 +3,14 @@ import { HeaderContainer } from '../../styles/style-questionario';
 import Header from '../../layouts/Header';
 import { api, FORMS_GET } from '../../services/questionariosApi';
 import staticPropsConfig from '../../config/staticPropsConfig';
+import React from 'react';
 
 export default function Questionarios({ data }) {
+    React.useEffect(() => {
+        (async () => {
+            const response = await api(FORMS_GET());
+        })();
+    }, []);
     return (
         <>
             <Header title="Questionários Disponíveis para Resposta">
@@ -42,5 +48,10 @@ export async function getStaticProps() {
         };
     } catch (err) {
         console.log(err);
+        return {
+            props: {
+                data: [],
+            },
+        };
     }
 }
