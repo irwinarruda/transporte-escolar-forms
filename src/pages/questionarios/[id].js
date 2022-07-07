@@ -154,23 +154,6 @@ export default function Questionario({ formFields, formInfo, idPage }) {
     );
 }
 
-export async function getStaticPaths() {
-    return {
-        paths: [
-            {
-                params: {
-                    id: '3',
-                },
-            },
-            {
-                params: {
-                    id: '4',
-                },
-            },
-        ],
-        fallback: 'blocking',
-    };
-}
 export async function getStaticProps(context) {
     try {
         const response = await api(FORMS_GET_ONE(context.params.id));
