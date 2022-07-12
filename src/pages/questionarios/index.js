@@ -32,7 +32,7 @@ export default function Questionarios({ data }) {
     );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
     try {
         const response = await api(FORMS_GET());
         const data = await response.data;
@@ -44,10 +44,8 @@ export async function getStaticProps() {
             props: {
                 data: realData,
             },
-            revalidate: staticPropsConfig.revalidate,
         };
     } catch (err) {
-        console.log(err);
         return {
             props: {
                 data: [],

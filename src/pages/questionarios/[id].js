@@ -154,16 +154,10 @@ export default function Questionario({ formFields, formInfo, idPage }) {
     );
 }
 
-export async function getStaticPaths() {
-    return {
-        paths: [],
-        fallback: 'blocking',
-    };
-}
-
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
     try {
-        const response = await api(FORMS_GET_ONE(context.params.id));
+        if (!context.query.id) throw new Error("Nenhum id encontrado");
+        const response = await api(FORMS_GET_ONE(context.query.id));
         const data = await response.data;
         let treatedData = [];
         if (data.result) {
@@ -179,7 +173,6 @@ export async function getStaticProps(context) {
                 },
                 idPage: context.params.id,
             },
-            revalidate: staticPropsConfig.revalidate,
         };
     } catch (err) {
         return {
@@ -187,7 +180,6 @@ export async function getStaticProps(context) {
                 permanent: false,
                 destination: '/questionarios',
             },
-            revalidate: staticPropsConfig.revalidate,
         };
     }
 }
