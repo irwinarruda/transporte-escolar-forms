@@ -23,6 +23,7 @@ formFunctions.set('5', CreateInputRadioField);
 formFunctions.set('6', CreateSelect);
 formFunctions.set('8', CreateInputTextField);
 formFunctions.set('9', CreateInputTextSearch);
+formFunctions.set('10', CreateInputTextNumberField);
 
 export function handleMostrar(mostrar) {
     let mostrarTreated = mostrar.split(';');
@@ -75,6 +76,7 @@ export function CreateInputRadio({
     React.useEffect(() => {
         if (formItem.mostrar) {
             const treatedMostrar = handleMostrar(formItem.mostrar);
+            console.log('treatedMostrar', treatedMostrar);
             var blockedItems = [];
             treatedMostrar.forEach((item) => {
                 if (radioValue === item[0]) {
@@ -223,6 +225,25 @@ export function CreateInputTextField({
                     label: item.enunciado,
                     value: `res_${item.id_pergunta}`,
                 }))}
+            />
+        </ValidationContainer>
+    );
+}
+export function CreateInputTextNumberField({
+    formItem,
+    blockedFields,
+    setBlockedFields,
+}) {
+    return (
+        <ValidationContainer blockedFields={blockedFields} formItem={formItem}>
+            <UnformInputTextField
+                labelText={formItem.enunciado}
+                name={`form_${formItem.id_pergunta}`}
+                options={formItem.itens.map((item) => ({
+                    label: item.enunciado,
+                    value: `res_${item.id_pergunta}`,
+                }))}
+                type="number"
             />
         </ValidationContainer>
     );
