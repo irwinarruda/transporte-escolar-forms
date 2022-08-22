@@ -23,7 +23,8 @@ formFunctions.set('5', CreateInputRadioField);
 formFunctions.set('6', CreateSelect);
 formFunctions.set('8', CreateInputTextField);
 formFunctions.set('9', CreateInputTextSearch);
-formFunctions.set('10', CreateInputTextNumberField);
+formFunctions.set('10', CreateInputNumberField);
+formFunctions.set('11', CreateInputNumber);
 
 export function handleMostrar(mostrar) {
     let mostrarTreated = mostrar.split(';');
@@ -136,6 +137,22 @@ export function CreateInputText({ formItem, blockedFields, setBlockedFields }) {
         </ValidationContainer>
     );
 }
+export function CreateInputNumber({
+    formItem,
+    blockedFields,
+    setBlockedFields,
+}) {
+    return (
+        <ValidationContainer blockedFields={blockedFields} formItem={formItem}>
+            <UnformInputText
+                labelText={formItem.enunciado}
+                name={`form_${formItem.id_pergunta}`}
+                bigTextField
+                type="number"
+            />
+        </ValidationContainer>
+    );
+}
 export function CreateTextArea({ formItem, blockedFields, setBlockedFields }) {
     return (
         <ValidationContainer blockedFields={blockedFields} formItem={formItem}>
@@ -229,7 +246,7 @@ export function CreateInputTextField({
         </ValidationContainer>
     );
 }
-export function CreateInputTextNumberField({
+export function CreateInputNumberField({
     formItem,
     blockedFields,
     setBlockedFields,
