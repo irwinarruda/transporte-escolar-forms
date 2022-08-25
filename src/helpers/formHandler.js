@@ -77,7 +77,6 @@ export function CreateInputRadio({
     React.useEffect(() => {
         if (formItem.mostrar) {
             const treatedMostrar = handleMostrar(formItem.mostrar);
-            console.log('treatedMostrar', treatedMostrar);
             var blockedItems = [];
             treatedMostrar.forEach((item) => {
                 if (radioValue === item[0]) {
@@ -238,10 +237,12 @@ export function CreateInputTextField({
             <UnformInputTextField
                 labelText={formItem.enunciado}
                 name={`form_${formItem.id_pergunta}`}
-                options={formItem.itens.map((item) => ({
-                    label: item.enunciado,
-                    value: `res_${item.id_pergunta}`,
-                }))}
+                options={formItem.itens
+                    .filter((item) => !blockedFields.includes(item.id_pergunta))
+                    .map((item) => ({
+                        label: item.enunciado,
+                        value: `res_${item.id_pergunta}`,
+                    }))}
             />
         </ValidationContainer>
     );
@@ -256,10 +257,12 @@ export function CreateInputNumberField({
             <UnformInputTextField
                 labelText={formItem.enunciado}
                 name={`form_${formItem.id_pergunta}`}
-                options={formItem.itens.map((item) => ({
-                    label: item.enunciado,
-                    value: `res_${item.id_pergunta}`,
-                }))}
+                options={formItem.itens
+                    .filter((item) => !blockedFields.includes(item.id_pergunta))
+                    .map((item) => ({
+                        label: item.enunciado,
+                        value: `res_${item.id_pergunta}`,
+                    }))}
                 type="number"
             />
         </ValidationContainer>
